@@ -16,15 +16,17 @@
 
 class EtuFB {
 	var $app_id;
-	var $app_secret;
-	var $redirect_url;
-	var $extended_permissions;
+	var $secret;
+	var $url;
+	var $redirect;
+	var $eperms;
 	
-	function __construct($app_id, $secret, $redirect_url, $extpermissions = '') {
-		$this->app_id = $app_id;
-		$this->app_secret = $secret;
-		$this->redirect_url = $redirect_url;
-		$this->extended_permissions = $extpermissions;
+	function __construct($fb) {
+		$this->app_id   = $fb['app_id'];
+		$this->secret   = $fb['secret'];
+		$this->url      = $fb['url'];
+		$this->redirect = $fb['redirect'];
+		$this->eperms   = $fb['eperms'];
 		
 		// Without this permission you will not be able to fetch accsesstoken nor do api-calls
 		if(ini_get('allow_url_fopen') != 1)
@@ -38,23 +40,23 @@ class EtuFB {
 	function getAuthUrl() {
 		$auth_url = 'https://graph.facebook.com/oauth/authorize'.
 			'?client_id='.$this->app_id.
-			'&redirect_uri='.$this->redirect_url.
-			'&scope='.$this->extended_permissions;
+			'&redirect_uri='.$this->redirect.
+			'&scope='.$this->eperms;
 		return $auth_url;
 	}
 	
 	function getAccsessToken($code) {
 		$accsess_token_url = 'https://graph.facebook.com/oauth/access_token'.
 			'?client_id='.$this->app_id.
-			'&redirect_uri='.$this->redirect_url.
-			'&client_secret='.$this->app_secret.
+			'&redirect_uri='.$this->redirect.
+			'&client_secret='.$this->secret.
 			'&code='.$code;
 		
 		$result = file_get_contents($accsess_token_url);
 		
 		// If the fetching of an acsess token fails... Reauth the user.
 		if($result === false) {
-			die('<script>window.top.location="'.$this->redirect_url.'";</script>');
+			die('<script>window.top.location="'.$this->redirect.'";</script>');
 		} else {
 			return $result;
 		}
