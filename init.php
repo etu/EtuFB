@@ -15,7 +15,7 @@ $facebook = new EtuFB($fb);
 $sess['code']   = $_SESSION['code'];
 
 // If the code is _not_ set in the SESSION or in the GET, the program will break and redirect the user to the authpage
-if (strlen($sess['code']) == 0 AND !isset($_GET['code']))
+if (strlen($sess['code']) != 0 OR isset($_GET['code']))
 	die('<script>window.top.location = "'.$facebook->getAuthUrl().'";</script>');
 else { // And... When the redirection is done, and the user is authed. The prossedure continues to get a accsess_token
 	$sess['code']     = $_GET['code'];
