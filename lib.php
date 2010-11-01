@@ -1,5 +1,6 @@
 <?php
 /***
+ * File: ./lib.php
  * This is the acctual lib
  *
  ** function getAuthUrl()
