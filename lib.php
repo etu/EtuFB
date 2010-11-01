@@ -26,9 +26,12 @@ class EtuFB {
 		$this->redirect_url = $redirect_url;
 		$this->extended_permissions = $extpermissions;
 		
-		if(ini_get('allow_url_fopen') != 1) // Without this permission you will not be able to fetch accsesstoken nor do api-calls
+		// Without this permission you will not be able to fetch accsesstoken nor do api-calls
+		if(ini_get('allow_url_fopen') != 1)
 			die('You have to enable <em>allow_url_fopen</em>, file_get_contents have to be able to accsess URLs to fetch the users accsess_token.');
-		if(ini_get('display_errors') != 0)  // It's allways a good idea to disable /display_errors/ in a live enviorment, debugmode will be added
+		
+		// It's allways a good idea to disable /display_errors/ in a live enviorment, debugmode will be added
+		if(ini_get('display_errors') != 0)
 			die('You have to disable <em>display_errors</em>, else it will not work when the accsess_token run out of time.');
 	}
 	
@@ -48,8 +51,10 @@ class EtuFB {
 			'&code='.$code;
 		
 		$result = file_get_contents($accsess_token_url);
+		
+		// If the fetching of an acsess token fails... Reauth the user.
 		if($result === false) {
-			die('<script>window.top.location="'.$this->redirect_url.'";</script>'); // Reauthing to get new code
+			die('<script>window.top.location="'.$this->redirect_url.'";</script>');
 		} else {
 			return $result;
 		}
