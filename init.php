@@ -4,9 +4,6 @@ session_start();
 require_once('../config.php');
 require_once('../lib.php');
 
-mysql_connect($db_host, $db_user, $db_pass) or die("database connect error");
-mysql_select_db($db_table) or die("database selection error");
-
 $fb_object = new EtuFB($fb_app_id, $fb_secret, $fb_canvas, $fb_eperms);
 $fb_atoken = $_SESSION['accsess_token'];
 $fb_code   = $_SESSION['code'];
