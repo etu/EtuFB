@@ -15,8 +15,7 @@ $sess['code']   = $_SESSION['code'];
 
 if (strlen($sess['code']) == 0 AND !isset($_GET['code']))
 	die('<script>window.top.location = "'.$facebook->getAuthUrl().'";</script>');
-
-if (strlen($sess['code']) != 0 AND isset($_GET['code'])) {
+else {
 	$sess['code']     = $_GET['code'];
 	$_SESSION['code'] = $_GET['code'];
 	
