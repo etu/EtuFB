@@ -22,5 +22,5 @@
 $fb['app_id'] = '<your appid>';
 $fb['secret'] = '<your appsecret>';
 $fb['url']    = 'http://apps.facebook.com/<your appcanvas here>/';
-$fb['redirect'] = $fb_url.'?page=oauth_redirect';
+$fb['redirect'] = $fb['url'].'?page=oauth_redirect';
 $fb['eperms'] = '';
