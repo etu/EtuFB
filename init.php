@@ -1,7 +1,7 @@
 <?php
 /***
  * File: ./init.php
- * This file is an example of how you initializes the lib, auths the user, get accsess_token, and fetches the user.
+ * This file is an example of how you initializes the lib, auths the user, get access_token, and fetches the user.
  */
 
 session_start();
