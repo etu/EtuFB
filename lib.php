@@ -45,16 +45,16 @@ class EtuFB {
 		return $auth_url;
 	}
 	
-	function getAccsessToken($code) {
-		$accsess_token_url = 'https://graph.facebook.com/oauth/access_token'.
+	function getAccessToken($code) {
+		$access_token_url = 'https://graph.facebook.com/oauth/access_token'.
 			'?client_id='.$this->app_id.
 			'&redirect_uri='.$this->redirect.
 			'&client_secret='.$this->secret.
 			'&code='.$code;
 		
-		$result = file_get_contents($accsess_token_url);
+		$result = file_get_contents($access_token_url);
 		
-		// If the fetching of an acsess token fails... Reauth the user.
+		// If the fetching of an access token fails... Reauth the user.
 		if($result === false) {
 			die('<script>window.top.location="'.$this->redirect.'";</script>');
 		} else {
