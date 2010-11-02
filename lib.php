@@ -6,9 +6,9 @@
  ** function getAuthUrl()
  * Returns the URL you should send the user to, to authenticate and get a code.
  *
- ** function getAccsessToken()
- * Tries to get a accsess token using the code, if it succseed it will return the accsesstoken.
- * If it fails(usaly becouse tho code is too old) it well reouthenticate the user.
+ ** function getAccessToken()
+ * Tries to get a access token using the code, if it succseed it will return the accesstoken.
+ * If it fails(usaly becouse tho code is too old) it well reauthenticate the user.
  *
  ** function api()
  * Needs moar work to get it working with all kinds of graph api-calls.
