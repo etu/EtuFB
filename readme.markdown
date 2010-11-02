@@ -8,7 +8,7 @@ Started and not tested in big apps, but it's small and really simple. So I think
 
 ## Features
 * Gain code for user, and ask for extended permissions
-* Gain accsess token without reloading the page
+* Gain access token without reloading the page
 * Do really simple API calls to graph API, will work on this
 * If the code is to old(2hrs), automatic gaining reauthing(only if user refresh browser)
 
