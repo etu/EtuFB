@@ -21,10 +21,11 @@ if(isset($_GET['code']))
 if (!isset($sess->code))
 	die('<script>window.top.location = "'.$facebook->getAuthUrl().'";</script>');
 else {
-	// And... When the redirection is done, and the user is authed. The prossedure continues to get a accsess_token
+	// And... When the redirection is done, and the user is authed. The prossedure continues to get a access_token
 	$_SESSION['code'] = $sess->code;
 	
-	$get_token = $facebook->getAccessToken($sess->code); // If it fails to gets accsess_token, becose the code is old. It will die and reauth the user.
+	// If it fails to gets access_token, becose the code is old. It will die and reauth the user.
+	$get_token = $facebook->getAccessToken($sess->code);
 	
 	$sess->token = $get_token;
 }
