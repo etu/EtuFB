@@ -19,8 +19,8 @@
  * Extended permissions you want to require from the user, for example: publish_stream,email,sms
  */
 
-$fb['app_id'] = '<your appid>';
-$fb['secret'] = '<your appsecret>';
-$fb['url']    = 'http://apps.facebook.com/<your appcanvas here>/';
+$fb['app_id']   = '<your appid>';
+$fb['secret']   = '<your appsecret>';
+$fb['url']      = 'http://apps.facebook.com/<your appcanvas here>/';
 $fb['redirect'] = $fb['url'].'?page=oauth_redirect';
-$fb['eperms'] = '';
+$fb['eperms']   = '';
