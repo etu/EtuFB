@@ -14,7 +14,7 @@ $facebook = new EtuFB($fb);
 // Retrive the code from the session from the sessioncookie (This will not happen with IE)
 if(isset($_SESSION['code']))
 	$sess->code = $_SESSION['code'];	
-if(isset($_GET['code']))
+elseif(isset($_GET['code']))
 	$sess->code = $_GET['code'];	
 
 // If the code is _not_ set, the program will break and redirect the user to the authpage
