@@ -56,7 +56,7 @@ class EtuFB {
 		
 		// If the fetching of an access token fails... Reauth the user.
 		if($result === false) {
-			die('<script>window.top.location="'.$this->redirect.'";</script>');
+			die('<script>window.top.location="'.$this->getAuthUrl().'";</script>');
 		} else {
 			return $result;
 		}

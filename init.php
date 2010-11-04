@@ -12,21 +12,22 @@ require_once('../lib.php');
 $facebook = new EtuFB($fb);
 
 // Retrive the code from the session from the sessioncookie (This will not happen with IE)
-if(isset($_SESSION['code']))
+if(strlen($_SESSION['code']) != 0)
 	$sess->code = $_SESSION['code'];	
-elseif(isset($_GET['code']))
-	$sess->code = $_GET['code'];	
+elseif(strlen($_GET['code']) != 0)
+	$sess->code = $_GET['code'];
+else
+	$sess->code = '';
 
 // If the code is _not_ set, the program will break and redirect the user to the authpage
-if (!isset($sess->code))
+if (strlen($sess->code) == 0)
 	die('<script>window.top.location = "'.$facebook->getAuthUrl().'";</script>');
 else {
 	// And... When the redirection is done, and the user is authed. The prossedure continues to get a access_token
-	$_SESSION['code'] = $sess->code;
-	
-	// If it fails to gets access_token, becose the code is old. It will die and reauth the user.
+	// If it fails to gets access_token, becouse the code is old(or some other reason). It will die and reauth the user.
 	$get_token = $facebook->getAccessToken($sess->code);
 	
+	$_SESSION['code'] = $sess->code;
 	$sess->token = $get_token;
 }
 
