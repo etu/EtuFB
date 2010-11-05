@@ -54,7 +54,7 @@ class EtuFB {
 		
 		$result = file_get_contents($access_token_url);
 		
-		// If the fetching of an access token fails... Unset the sessian and reauth the user
+		// If the fetching of an access token fails... Unset the session and reauth the user
 		if($result === false) {
 			unset($_SESSION['code']);
 			die('<script>window.top.location="'.$this->getAuthUrl().'";</script>');
