@@ -9,7 +9,7 @@ require_once('../init.php');
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   </head>
   <body>
-	<h1>/index.php: Signed in</h1>
+	<h1>/http/index.php: Authed</h1>
 	<a href="/index2.php?code=<?=$facebook->code?>">Link to index2.php</a>
 	<hr />
 	<pre><?print_r($user);?></pre>
