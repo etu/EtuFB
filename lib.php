@@ -21,6 +21,9 @@ class EtuFB {
 	var $redirect;
 	var $eperms;
 	
+	var $code;
+	var $token;
+	
 	function __construct($fb) {
 		$this->app_id   = $fb['app_id'];
 		$this->secret   = $fb['secret'];

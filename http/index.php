@@ -10,7 +10,7 @@ require_once('../init.php');
   </head>
   <body>
 	<h1>Signed in</h1>
-	<a href="/index2.php?code=<?=$sess->code?>">Link to index2.php</a>
+	<a href="/index2.php?code=<?=$facebook->code?>">Link to index2.php</a>
 	<hr />
 	<pre><?print_r($user);?></pre>
   </body>
