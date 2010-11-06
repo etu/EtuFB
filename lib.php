@@ -38,6 +38,11 @@ class EtuFB {
 		else
 			$this->code = '';
 		
+		if(strlen($_SESSION['token']) != 0)
+			$this->token = $_SESSION['token'];
+		else
+			$this->token = '';
+		
 		// Without this permission you will not be able to fetch accsesstoken nor do api-calls
 		if(ini_get('allow_url_fopen') != 1)
 			die('You have to enable <em>allow_url_fopen</em>, file_get_contents have to be able to accsess URLs to fetch the users accsess_token.');
@@ -67,14 +72,28 @@ class EtuFB {
 		// If the fetching of an access token fails... Unset the session and reauth the user
 		if($result === false) {
 			unset($_SESSION['code']);
+			unset($_SESSION['token']);
 			die('<script>window.top.location="'.$this->getAuthUrl().'";</script>');
 		} else {
+			$this->token       = $result;
+			$_SESSION['code']  = $this->code;
+			$_SESSION['token'] = $this->token;
+			
 			return $result;
 		}
 	}
 	
-	function api($call, $token = '') {
-		$api_get_user_url = 'https://graph.facebook.com/'.$call.'?'.$token;
+	function getUser() {
+		$result = $this->api('me');
+
+		if($result === false)
+			die('DIE MOTHERFUCKER DIE');
+		else
+			return $result;
+	}
+	
+	function api($call) {
+		$api_get_user_url = 'https://graph.facebook.com/'.$call.'?'.$this->token;
 		$user = file_get_contents($api_get_user_url);
 		return json_decode($user);
 	}
