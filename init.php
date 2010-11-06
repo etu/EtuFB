@@ -16,10 +16,10 @@ require_once('../lib.php');
 $facebook = new EtuFB($fb);
 
 if (strlen($facebook->code) == 0)
-	die('<script>window.top.location = "'.$facebook->getAuthUrl().'";</script>');
+	$facebook->reAuth();
 
 if (strlen($facebook->token) == 0)
-	$facebook->getAccessToken($facebook->code);
+	$facebook->getAccessToken();
 
 // Use the graph API to get the logged is user from facebook :)
 $user = $facebook->getUser();

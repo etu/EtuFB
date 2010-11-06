@@ -52,28 +52,32 @@ class EtuFB {
 			die('You have to disable <em>display_errors</em>, else it will not work when the accsess_token run out of time.');
 	}
 	
-	function getAuthUrl() {
+	private function getAuthUrl() {
 		$auth_url = 'https://graph.facebook.com/oauth/authorize'.
 			'?client_id='.$this->app_id.
 			'&redirect_uri='.$this->redirect.
 			'&scope='.$this->eperms;
 		return $auth_url;
 	}
+
+	function reAuth() {
+		unset($_SESSION['code']);
+		unset($_SESSION['token']);
+		die('<script>window.top.location="'.$this->getAuthUrl().'";</script>');
+	}
 	
-	function getAccessToken($code) {
+	function getAccessToken() {
 		$access_token_url = 'https://graph.facebook.com/oauth/access_token'.
 			'?client_id='.$this->app_id.
 			'&redirect_uri='.$this->redirect.
 			'&client_secret='.$this->secret.
-			'&code='.$code;
+			'&code='.$this->code;
 		
 		$result = file_get_contents($access_token_url);
 		
 		// If the fetching of an access token fails... Unset the session and reauth the user
 		if($result === false) {
-			unset($_SESSION['code']);
-			unset($_SESSION['token']);
-			die('<script>window.top.location="'.$this->getAuthUrl().'";</script>');
+			$this->reAuth();
 		} else {
 			$this->token       = $result;
 			$_SESSION['code']  = $this->code;
@@ -85,9 +89,9 @@ class EtuFB {
 	
 	function getUser() {
 		$result = $this->api('me');
-
+		
 		if($result === false)
-			die('DIE MOTHERFUCKER DIE');
+			$this->reAuth();	
 		else
 			return $result;
 	}
