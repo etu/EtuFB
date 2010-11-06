@@ -31,6 +31,13 @@ class EtuFB {
 		$this->redirect = $fb['redirect'];
 		$this->eperms   = $fb['eperms'];
 		
+		if(strlen($_SESSION['code']) != 0)
+			$this->code = $_SESSION['code'];	
+		elseif(strlen($_GET['code']) != 0)
+			$this->code = $_GET['code'];
+		else
+			$this->code = '';
+		
 		// Without this permission you will not be able to fetch accsesstoken nor do api-calls
 		if(ini_get('allow_url_fopen') != 1)
 			die('You have to enable <em>allow_url_fopen</em>, file_get_contents have to be able to accsess URLs to fetch the users accsess_token.');

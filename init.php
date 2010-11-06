@@ -11,14 +11,6 @@ require_once('../lib.php');
 
 $facebook = new EtuFB($fb);
 
-// Retrive the code from the session from the sessioncookie (This will not happen with IE)
-if(strlen($_SESSION['code']) != 0)
-	$facebook->code = $_SESSION['code'];	
-elseif(strlen($_GET['code']) != 0)
-	$facebook->code = $_GET['code'];
-else
-	$facebook->code = '';
-
 // If the code is _not_ set, the program will break and redirect the user to the authpage
 if (strlen($facebook->code) == 0)
 	die('<script>window.top.location = "'.$facebook->getAuthUrl().'";</script>');
