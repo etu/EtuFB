@@ -17,7 +17,7 @@
  * If it fails(usaly becouse tho code is too old) it well reauthenticate the user.
  *
  ** function getUser()
- * Just a dumb version of api(), it even uses api. Fetches the user from facebook, if it fails, kill and reauth.
+ * Just a dumb version of api(). Fetches the user from facebook, if it fails, kill and reauth.
  *
  ** function api()
  * Needs moar work to get it working with all kinds of graph api-calls.
@@ -97,7 +97,7 @@ class EtuFB {
 	}
 	
 	function getUser() {
-		$result = $this->api('me');
+		$result = file_get_contents('https://graph.facebook.com/me?'.$this->token);
 		
 		if($result === false)
 			$this->reAuth();	
@@ -106,8 +106,8 @@ class EtuFB {
 	}
 	
 	function api($call) {
-		$api_get_user_url = 'https://graph.facebook.com/'.$call.'?'.$this->token;
-		$user = file_get_contents($api_get_user_url);
-		return json_decode($user);
+		$url = 'https://graph.facebook.com/'.$call.'?'.$this->token;
+		$result = file_get_contents($url);
+		return json_decode($result);
 	}
 }
