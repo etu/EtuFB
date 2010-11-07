@@ -102,7 +102,7 @@ class EtuFB {
 		if($result === false)
 			$this->reAuth();	
 		else
-			return $result;
+			return json_decode($result);
 	}
 	
 	function api($call) {
