@@ -1,6 +1,6 @@
 <?php
 /***
- * File: ./config.php
+ * File: ./config.sample.php
  * Configfile
  *
  ** $fb['app_id']
