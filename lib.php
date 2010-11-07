@@ -2,13 +2,22 @@
 /***
  * File: ./lib.php
  * This is the acctual lib
+ * 
+ ** function __construct()
+ * This function is the constructor, it saves the configs to the class and fetches code and token from Sessions/GET
  *
- ** function getAuthUrl()
- * Returns the URL you should send the user to, to authenticate and get a code.
+ ** private function getAuthUrl()
+ * Returns the URL you should send the user to, to authenticate and get a code. This also requests for permissions.
+ *
+ ** function reAuth()
+ * Unsets all sessions needed for authing, getting the authUrl, kills the runtime and prints a Javascript to reauth.
  *
  ** function getAccessToken()
  * Tries to get a access token using the code, if it succseed it will return the accesstoken.
  * If it fails(usaly becouse tho code is too old) it well reauthenticate the user.
+ *
+ ** function getUser()
+ * Just a dumb version of api(), it even uses api. Fetches the user from facebook, if it fails, kill and reauth.
  *
  ** function api()
  * Needs moar work to get it working with all kinds of graph api-calls.
@@ -75,7 +84,7 @@ class EtuFB {
 		
 		$result = file_get_contents($access_token_url);
 		
-		// If the fetching of an access token fails... Unset the session and reauth the user
+		// If the fetching of an access token fails... ReAuth the user!
 		if($result === false) {
 			$this->reAuth();
 		} else {
