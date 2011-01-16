@@ -3,7 +3,7 @@
  * File: ./config.sample.php
  * Configfile
  *
- ** $fb['app_id']
+ ** $fb['api_id']
  * Your app-id, the one you gets from facebook.
  *
  ** $fb['secret']
@@ -19,7 +19,7 @@
  * Extended permissions you want to require from the user, for example: publish_stream,email,sms
  */
 
-$fb['app_id']   = '<your appid>';
+$fb['api_id']   = '<your appid>';
 $fb['secret']   = '<your appsecret>';
 $fb['url']      = 'http://apps.facebook.com/<your appcanvas here>/';
 $fb['redirect'] = $fb['url'].'?page=oauth_redirect';

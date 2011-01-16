@@ -24,7 +24,7 @@
  */
 
 class EtuFB {
-	var $app_id;
+	var $api_id;
 	var $secret;
 	var $url;
 	var $redirect;
@@ -34,7 +34,7 @@ class EtuFB {
 	var $token;
 	
 	function __construct($fb) {
-		$this->app_id   = $fb['app_id'];
+		$this->api_id   = $fb['api_id'];
 		$this->secret   = $fb['secret'];
 		$this->url      = $fb['url'];
 		$this->redirect = $fb['redirect'];
