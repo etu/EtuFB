@@ -63,7 +63,7 @@ class EtuFB {
 	
 	private function getAuthUrl() {
 		$auth_url = 'https://graph.facebook.com/oauth/authorize'.
-			'?client_id='.$this->app_id.
+			'?client_id='.$this->api_id.
 			'&redirect_uri='.$this->redirect.
 			'&scope='.$this->eperms;
 		return $auth_url;
@@ -77,7 +77,7 @@ class EtuFB {
 	
 	function getAccessToken() {
 		$access_token_url = 'https://graph.facebook.com/oauth/access_token'.
-			'?client_id='.$this->app_id.
+			'?client_id='.$this->api_id.
 			'&redirect_uri='.$this->redirect.
 			'&client_secret='.$this->secret.
 			'&code='.$this->code;
