@@ -24,41 +24,57 @@
  */
 
 class EtuFB {
-	var $api_id;
-	var $secret;
-	var $url;
-	var $redirect;
-	var $eperms;
+	protected $api_id;
+	protected $secret;
+	private $url;
+	private $redirect;
+	private $eperms;
 	
-	var $code;
-	var $token;
+	protected $debug;
 	
-	function __construct($fb) {
+	public $code;
+	public $token;
+	
+	public function __construct($fb, $debug = False) {
 		$this->api_id   = $fb['api_id'];
 		$this->secret   = $fb['secret'];
 		$this->url      = $fb['url'];
-		$this->redirect = $fb['redirect'];
+		$this->redirect = $fb['url'].$fb['redirect'];
 		$this->eperms   = $fb['eperms'];
 		
-		if(strlen($_SESSION['code']) != 0)
+		$this->debug    = $debug;
+		
+		if(strlen($_SESSION['code']) !== 0)
 			$this->code = $_SESSION['code'];	
-		elseif(strlen($_GET['code']) != 0)
+		elseif(strlen($_GET['code']) !== 0)
 			$this->code = $_GET['code'];
 		else
 			$this->code = '';
 		
-		if(strlen($_SESSION['token']) != 0)
+		if(strlen($_SESSION['token']) !== 0)
 			$this->token = $_SESSION['token'];
 		else
 			$this->token = '';
 		
-		// Without this permission you will not be able to fetch accsesstoken nor do api-calls
-		if(ini_get('allow_url_fopen') != 1)
-			die('You have to enable <em>allow_url_fopen</em>, file_get_contents have to be able to accsess URLs to fetch the users accsess_token.');
-		
-		// It's allways a good idea to disable /display_errors/ in a live enviorment, debugmode will be added
-		if(ini_get('display_errors') != 0)
-			die('You have to disable <em>display_errors</em>, else it will not work when the accsess_token run out of time.');
+		if($this->debug) {
+			// Internet Explorer Emulation
+			unset($_SESSION['code']);
+			unset($_SESSION['token']);
+			
+			// Without this permission you will not be able to fetch accsesstoken nor do api-calls
+			if(ini_get('allow_url_fopen') === False)
+				echo 'You have to enable <em>allow_url_fopen</em>, file_get_contents have to be able to accsess URLs to fetch the users accsess_token.';
+			
+			// It's always a good idea to disable /display_errors/ in a live enviorment
+			if(ini_get('display_errors') === '1')
+				echo 'You have to disable <em>display_errors</em>, else it will not work when the access_token run out of time.';
+		} else {
+			if(ini_get('allow_url_fopen') === False)
+				ini_set('allow_url_fopen', True);
+			
+			if(ini_get('display_errors') === '1')
+				ini_set('display_errors', 'Off');
+		}
 	}
 	
 	private function getAuthUrl() {
@@ -68,14 +84,14 @@ class EtuFB {
 			'&scope='.$this->eperms;
 		return $auth_url;
 	}
-
-	function reAuth() {
+	
+	public function reAuth() {
 		unset($_SESSION['code']);
 		unset($_SESSION['token']);
 		die('<script>window.top.location="'.$this->getAuthUrl().'";</script>');
 	}
 	
-	function getAccessToken() {
+	public function getAccessToken() {
 		$access_token_url = 'https://graph.facebook.com/oauth/access_token'.
 			'?client_id='.$this->api_id.
 			'&redirect_uri='.$this->redirect.
@@ -96,7 +112,7 @@ class EtuFB {
 		}
 	}
 	
-	function getUser() {
+	public function getUser() {
 		$result = file_get_contents('https://graph.facebook.com/me?'.$this->token);
 		
 		if($result === false)
@@ -105,7 +121,7 @@ class EtuFB {
 			return json_decode($result);
 	}
 	
-	function api($call) {
+	public function api($call) {
 		$url = 'https://graph.facebook.com/'.$call.'?'.$this->token;
 		$result = file_get_contents($url);
 		return json_decode($result);

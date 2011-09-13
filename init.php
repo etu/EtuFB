@@ -6,15 +6,11 @@
 
 session_start();
 
-// Internet Explorer Emulation
-//unset($_SESSION['code']);
-//unset($_SESSION['token']);
-
-require_once('../config.php');
+$config = parse_ini_file('../config.ini', True);
 require_once('../lib.php');
 
 // Create the object, and send in the configruation variable
-$facebook = new EtuFB($fb);
+$facebook = new EtuFB($config['FaceBook'], $config['debug']);
 
 // If the user don't have a code, reauth.
 if (strlen($facebook->code) == 0)
@@ -27,3 +23,4 @@ if (strlen($facebook->token) == 0)
 // Use the graph API to get the logged is user from facebook :)
 // If it fails, becouse token is to old, unset the sessions and reauth.
 $user = $facebook->getUser();
+
