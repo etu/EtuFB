@@ -1,40 +1,29 @@
 <?php
-/***
- * File: ./lib.php
- * This is the acctual lib
- * 
- ** function __construct()
- * This function is the constructor, it saves the configs to the class and fetches code and token from Sessions/GET
+/**
+ * EtuFb
  *
- ** private function getAuthUrl()
- * Returns the URL you should send the user to, to authenticate and get a code. This also requests for permissions.
- *
- ** function reAuth()
- * Unsets all sessions needed for authing, getting the authUrl, kills the runtime and prints a Javascript to reauth.
- *
- ** function getAccessToken()
- * Tries to get a access token using the code, if it succseed it will return the accesstoken.
- * If it fails(usaly becouse tho code is too old) it well reauthenticate the user.
- *
- ** function getUser()
- * Just a dumb version of api(). Fetches the user from facebook, if it fails, kill and reauth.
- *
- ** function api()
- * Needs moar work to get it working with all kinds of graph api-calls.
+ * @author Elis Axelsson <elis.axelsson@gmail.com>
+ * @copyright GNU Public License v3
  */
-
 class EtuFB {
-	protected $api_id;
-	protected $secret;
-	private $url;
-	private $redirect;
-	private $eperms;
+	private $api_id;   ///< Api Id is a value from Facebook
+	private $secret;   ///< Secret is another value from Facebook
 	
-	protected $debug;
+	private $url;      ///< Url to the app
+	private $redirect; ///< Where to redirect after authing
+	private $eperms;   ///< Extended permissions the app wants
 	
-	public $code;
-	public $token;
+	protected $debug;  ///< Debugmode or not
 	
+	public $code;      ///< Auth code for current user
+	public $token;     ///< Auth token for current user
+	
+	/**
+	 * Construct function, sets up the class, tries to fetch code and token from Sessions/GET.
+	 *
+	 * @param $fb array with configoptions from the configfile
+	 * @param $debug bool true or false for debug
+	 */
 	public function __construct($fb, $debug = False) {
 		$this->api_id   = $fb['api_id'];
 		$this->secret   = $fb['secret'];
@@ -77,6 +66,11 @@ class EtuFB {
 		}
 	}
 	
+	/**
+	 * Returns the URL you should send the user to, to authenticate and get a code. This also requests for extra permissions.
+	 *
+	 * @return Auth URL for the current session
+	 */
 	private function getAuthUrl() {
 		$auth_url = 'https://graph.facebook.com/oauth/authorize'.
 			'?client_id='.$this->api_id.
@@ -85,12 +79,22 @@ class EtuFB {
 		return $auth_url;
 	}
 	
+	/**
+	 * Unsets all sessions needed for authing, getting the authUrl, kills the runtime and prints a Javascript to reauth.
+	 */
 	public function reAuth() {
 		unset($_SESSION['code']);
 		unset($_SESSION['token']);
 		die('<script>window.top.location="'.$this->getAuthUrl().'";</script>');
 	}
 	
+	/**	
+	 * Tries to get a access token using the code, if it succseed it will return the accesstoken.
+	 * If it fails(usaly becouse the code is too old) it will reauthenticate the user.
+	 *
+	 * @see reAuth
+	 * @return Result from request, or reAuthing
+	 */
 	public function getAccessToken() {
 		$access_token_url = 'https://graph.facebook.com/oauth/access_token'.
 			'?client_id='.$this->api_id.
@@ -112,6 +116,12 @@ class EtuFB {
 		}
 	}
 	
+	/**
+	 * Just a dumb version of api(). Fetches the user from facebook.
+	 *
+	 * @see reAuth
+	 * @return Json Encoded result on success, else it will reAuth
+	 */
 	public function getUser() {
 		$result = file_get_contents('https://graph.facebook.com/me?'.$this->token);
 		
@@ -121,6 +131,12 @@ class EtuFB {
 			return json_decode($result);
 	}
 	
+	/**
+	 * Needs moar work to get it working with all kinds of graph api-calls.
+	 *
+	 * @param $call String with call
+	 * @return Json Encoded result
+	 */
 	public function api($call) {
 		$url = 'https://graph.facebook.com/'.$call.'?'.$this->token;
 		$result = file_get_contents($url);
