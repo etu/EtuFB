@@ -10,7 +10,7 @@ require_once('../init.php');
   </head>
   <body>
 	<h1>/http/index2.php: Authed</h1>
-	<a href="/index.php?code=<?php echo $facebook->code; ?>">Link to index2.php</a>
+	<a href="/index.php?code=<?php echo $facebook->code; ?>">Link to index.php</a>
 	<hr />
   </body>
 </html>
