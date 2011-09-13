@@ -45,6 +45,7 @@ class EtuFB {
 		else
 			$this->token = '';
 		
+		
 		if($this->debug) {
 			// Internet Explorer Emulation
 			unset($_SESSION['code']);
